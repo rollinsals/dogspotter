@@ -1,0 +1,10 @@
+<div class="container">
+    <h1>Sightings</h1>
+    <ul>
+        {% for sighting in sightings %}
+        <li>
+            {{ sighting.breed_id sighting.user_id sighting.timestamp}} {% endfor
+            %}
+        </li>
+    </ul>
+</div>
