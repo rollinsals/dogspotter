@@ -20,6 +20,7 @@ from spotapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.home, name='home'),
 
     path('spots', views.index, name='index'),
     path('spots/<int:sighting_id>', views.spot, name='spot'),

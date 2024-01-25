@@ -1,18 +1,23 @@
 from django.shortcuts import get_object_or_404,render
-from django.http.response import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import status
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
-from rest_framework.views import APIViews
+from rest_framework.views import APIView
 
 from .models import Sighting, User, DogBreed, City
-from serializers import SpotSerializer
+from .serializers import SpotSerializer
 from rest_framework.decorators import api_view
 
 import datetime
 
 # Create your views here.
+
+def home(request):
+    return HttpResponse("At least it's not entirely broken")
+
+
 def spot(request, sighting_id):
     our_spot = get_object_or_404(Sighting, pk=sighting_id)
     spot_serialized = SpotSerializer(our_spot)

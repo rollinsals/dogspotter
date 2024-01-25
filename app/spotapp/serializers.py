@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from models import Sighting
+from .models import Sighting
 
-class SpotSerializer(serializers.ModelSerialized):
+class SpotSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sighting
         fields = ('id', 'user_id', 'breed_id', 'timestamp',
