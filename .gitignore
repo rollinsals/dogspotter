@@ -1,2 +1,3 @@
-spotapp/migrations
+app/spotapp/migrations
 venv
+app/.env
