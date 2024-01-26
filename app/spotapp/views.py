@@ -24,7 +24,11 @@ def spot(request, sighting_id):
     return JsonResponse(spot_serialized.data)
 
 def post_sighting (request):
-    pass
+    new_data = JSONParser().parse(request)
+    sighting_serialized = SpotSerializer(data=new_data)
+    if sighting_serialized.is_valid():
+        return JsonResponse(sighting_serialized.data, status=status.HTTP_201_CREATED)
+    return JsonResponse(sighting_serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def index (request):
     queryset = Sighting.objects.all()
@@ -50,8 +54,9 @@ def user_spots(request, user):
     us_serialize = SpotSerializer(users_spots, many=True)
     return JsonResponse(us_serialize.data, safe=False)
 
-def spot_search(request):
-    pass
+"""def spot_search_name(request):
+    search_criteria = JSONParser().parse(request)
+    search_set = Sighting.objects.filter(dog_name__contains=search_criteria.data)"""
 
 def update_spot(request, sighting_id):
     spot = Sighting.objects.get(pk=sighting_id)

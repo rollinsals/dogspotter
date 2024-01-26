@@ -63,4 +63,4 @@ class Command(BaseCommand):
                 body_text = faker.paragraph()
             )
 
-            print("We did it Joe")
+            #print("We did it Joe")
