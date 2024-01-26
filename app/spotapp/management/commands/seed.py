@@ -51,12 +51,15 @@ class Command(BaseCommand):
                 name = faker.unique.dog_breed()
             )
         for _ in range(SIGHTING_COUNT):
+            u_id = randint(1, USER_COUNT)
+            b_id = randint(1, BREED_COUNT)
+            c_id = randint(1, CITY_COUNT)
             Sighting.objects.create(
-                user_id = randint(1, USER_COUNT),
-                breed_id = randint(1, BREED_COUNT),
+                user_id = User.objects.get(pk=u_id),
+                breed_id = DogBreed.objects.get(pk=b_id),
                 timestamp = faker.date_time_this_decade(),
                 address = faker.address(),
-                city = randint(1, CITY_COUNT),
+                city = City.objects.get(pk=c_id),
                 img = faker.file_name(category='image'),
                 dog_name = faker.first_name(),
                 headline = faker.text(max_nb_chars=140),

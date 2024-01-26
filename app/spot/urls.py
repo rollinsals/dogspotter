@@ -29,7 +29,7 @@ urlpatterns = [
     path('spots/<int:city_id>', views.by_city, name='city'),
     path('spots/<int:user_id>', views.user_spots, name='user'),
 
-    path('spots/search', views.spot_search, name='search'),
+    #path('spots/search', views.spot_search, name='search'),
     path('spots/<int:sighting_id>', views.update_spot, name='spot_upd'),
     path('spots/<int:sighting_id>', views.delete_spot, name='spot_del'),
 
