@@ -25,7 +25,7 @@ class Sighting(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     address = models.CharField(max_length=200)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
-    img = models.TextField()
+    img = models.TextField() # fake 'file' for now. just a dummy file name
     dog_name = models.CharField(max_length=100)
     headline = models.CharField(max_length=140)
     body_text = models.TextField()
