@@ -32,25 +32,26 @@ def post_sighting (request):
 
 def index (request):
     queryset = Sighting.objects.all()
-    return render(request, "spots/index.html", {'sightings': queryset})
+    queryset_serialized = SpotSerializer(queryset, many=True)
+    return JsonResponse(queryset_serialized.data, safe=False)
 
 def recent(request):
-    recent_spots = Sighting.objects.filter(timestamp=datetime.datetime.today()).order_by("timestamp")[:25]
+    recent_spots = Sighting.objects.order_by("timestamp")[:25]
     rs_serialized = SpotSerializer(recent_spots, many=True)
     return JsonResponse(rs_serialized.data, safe=False)
 
 def by_breed(request, breed):
-    breed_spots = Sighting.objects.filter(DogBreed__name = breed).order_by("timestamp")
+    breed_spots = Sighting.objects.filter(breed_id__slug = breed).order_by("timestamp")
     bs_serialized = SpotSerializer(breed_spots, many=True)
     return JsonResponse(bs_serialized.data, safe=False)
 
 def by_city(request, city):
-    city_spots = Sighting.objects.filter(City__name = city).order_by("timestamp")
+    city_spots = Sighting.objects.filter(city_id__slug = city).order_by("timestamp")
     cs_serialize = SpotSerializer(city_spots, many=True)
     return JsonResponse(cs_serialize.data, safe=False)
 
 def user_spots(request, user):
-    users_spots = Sighting.objects.filter(User__name = user).order_by("timestamp")
+    users_spots = Sighting.objects.filter(user_id__slug = user).order_by("timestamp")
     us_serialize = SpotSerializer(users_spots, many=True)
     return JsonResponse(us_serialize.data, safe=False)
 

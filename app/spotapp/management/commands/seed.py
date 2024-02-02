@@ -36,17 +36,17 @@ class Command(BaseCommand):
         faker.add_provider(Provider)
 
 
-        for _ in range(1,USER_COUNT):
+        for _ in range(USER_COUNT):
              User.objects.create(
                 name = faker.unique.user_name()
             )
 
-        for _ in range(1, CITY_COUNT):
+        for _ in range(CITY_COUNT):
             City.objects.create(
                 name = faker.unique.city()
             )
 
-        for _ in range(1, BREED_COUNT):
+        for _ in range(BREED_COUNT):
             DogBreed.objects.create(
                 name = faker.unique.dog_breed()
             )
