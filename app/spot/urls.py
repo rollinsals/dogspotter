@@ -25,9 +25,9 @@ urlpatterns = [
     path('spots', views.index, name='index'),
     path('spots/<int:sighting_id>', views.spot, name='spot'),
     path('spots/recent', views.recent, name='recent'),
-    path('spots/<int:breed_id>', views.by_breed, name='breed'),
-    path('spots/<int:city_id>', views.by_city, name='city'),
-    path('spots/<int:user_id>', views.user_spots, name='user'),
+    path('spots/breed/<slug:breed>', views.by_breed, name='breed'),
+    path('spots/city/<slug:city>', views.by_city, name='city'),
+    path('spots/<slug:user>', views.user_spots, name='user'),
 
     #path('spots/search', views.spot_search, name='search'),
     path('spots/<int:sighting_id>', views.update_spot, name='spot_upd'),
