@@ -23,6 +23,7 @@ def spot(request, sighting_id):
     spot_serialized = SpotSerializer(our_spot)
     return JsonResponse(spot_serialized.data)
 
+@api_view(['POST'])
 def post_sighting (request):
     new_data = JSONParser().parse(request)
     sighting_serialized = SpotSerializer(data=new_data)
@@ -36,7 +37,7 @@ def index (request):
     return JsonResponse(queryset_serialized.data, safe=False)
 
 def recent(request):
-    recent_spots = Sighting.objects.order_by("timestamp")[:25]
+    recent_spots = Sighting.objects.order_by("-timestamp")[:25]
     rs_serialized = SpotSerializer(recent_spots, many=True)
     return JsonResponse(rs_serialized.data, safe=False)
 
@@ -58,7 +59,7 @@ def user_spots(request, user):
 """def spot_search_name(request):
     search_criteria = JSONParser().parse(request)
     search_set = Sighting.objects.filter(dog_name__contains=search_criteria.data)"""
-
+@api_view(['PUT', 'PATCH'])
 def update_spot(request, sighting_id):
     spot = Sighting.objects.get(pk=sighting_id)
     upd_data = JSONParser().parse(request)
@@ -69,7 +70,7 @@ def update_spot(request, sighting_id):
 
     return JsonResponse(spot_serial.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+@api_view(['DELETE'])
 def delete_spot(request, sighting_id):
     spot = Sighting.objects.get(pk=sighting_id)
     spot.delete()

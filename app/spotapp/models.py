@@ -58,10 +58,10 @@ class Sighting(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     address = models.CharField(max_length=200)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
-    img = models.TextField() # fake 'file' for now. just a dummy file name
-    dog_name = models.CharField(max_length=100)
+    img = models.TextField(null=True, blank=True) # fake 'file' for now. just a dummy file name
+    dog_name = models.CharField(max_length=100, null=True, blank=True)
     headline = models.CharField(max_length=140)
-    body_text = models.TextField()
+    body_text = models.TextField(null=True, blank=True)
 
     def __str__(self) -> str:
         return f"Sighting no. {self.id}"
