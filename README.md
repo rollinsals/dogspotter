@@ -16,7 +16,7 @@ A simple check-app. Creates sightings of dogs.
     - image (optional, just a file name string, no implimentation)
     - address
 
-
+## Running
 Run migration
 Run manage.py seed - this will create a new dataset
 
