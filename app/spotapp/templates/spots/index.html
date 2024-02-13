@@ -1,7 +1,14 @@
-<head> </head>
+
 
 <body>
     <p>We'll get around to this someday.</p>
+    {% if sightings %}
+        <ul>
+        {% for sighting in sightings %}
+            <li><a href='/spots/{{ sighting.id }}/'>{{sighting.headline}}</a></li>
+        </ul>
+    {% else %}
+        <p>No Spots available</p>
 </body>
 
 <footer></footer>

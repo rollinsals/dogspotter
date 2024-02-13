@@ -22,16 +22,19 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
 
-    path('spots', views.index, name='index'),
-    path('spots/<int:sighting_id>', views.spot, name='spot'),
-    path('spots/recent', views.recent, name='recent'),
-    path('spots/breed/<slug:breed>', views.by_breed, name='breed'),
-    path('spots/city/<slug:city>', views.by_city, name='city'),
-    path('spots/<slug:user>', views.user_spots, name='user'),
+    path('spots', views.IndexView.as_view(), name='index'),
+    path('/spots/<int:sighting_id', views.SpotView.as_view()),
+
+    path('api/spots', views.index, name='index'),
+    path('api/spots/<int:sighting_id>', views.spot, name='spot'),
+    path('api/spots/recent', views.recent, name='recent'),
+    path('api/spots/breed/<slug:breed>', views.by_breed, name='breed'),
+    path('api/spots/city/<slug:city>', views.by_city, name='city'),
+    path('api/spots/<slug:user>', views.user_spots, name='user'),
 
     #path('spots/search', views.spot_search, name='search'),
-    path('spots/<int:sighting_id>', views.update_spot, name='spot_upd'),
-    path('spots/<int:sighting_id>', views.delete_spot, name='spot_del'),
+    path('api/spots/<int:sighting_id>', views.update_spot, name='spot_upd'),
+    path('api/spots/<int:sighting_id>', views.delete_spot, name='spot_del'),
 
-    path('spots/compose', views.post_sighting, name='spot_new')
+    path('api/spots/compose', views.post_sighting, name='spot_new')
 ]

@@ -6,6 +6,8 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from django.views import generic
+
 from .models import Sighting, User, DogBreed, City
 from .serializers import SpotSerializer
 from rest_framework.decorators import api_view
@@ -16,6 +18,11 @@ import datetime
 
 def home(request):
     return HttpResponse("At least it's not entirely broken")
+
+
+class SpotView(generic.DetailView):
+    model = Sighting
+    template_name = "spots/detail"
 
 
 def spot(request, sighting_id):
