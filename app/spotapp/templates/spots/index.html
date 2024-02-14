@@ -1,14 +1,12 @@
-
-
 <body>
-    <p>We'll get around to this someday.</p>
+    <h1>DogSpots.</h1>
     {% if sightings %}
-        <ul>
+    <ul>
         {% for sighting in sightings %}
-            <li><a href='/spots/{{ sighting.id }}/'>{{sighting.headline}}</a></li>
-        </ul>
+        <li><a href="/spots/{{ sighting.id }}/">{{sighting.headline}}</a></li>
+        {% endfor %}
+    </ul>
     {% else %}
-        <p>No Spots available</p>
+    <p>No Spots available</p>
+    {% endif %}
 </body>
-
-<footer></footer>

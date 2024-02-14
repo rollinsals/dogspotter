@@ -1,0 +1,7 @@
+{% extends "spots/base.html" %}
+<form action="{% url '' %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend><h1>New spot</h1></legend>
+    </fieldset>
+</form>

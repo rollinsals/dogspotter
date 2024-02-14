@@ -23,7 +23,7 @@ urlpatterns = [
     path('', views.home, name='home'),
 
     path('spots', views.IndexView.as_view(), name='index'),
-    path('/spots/<int:sighting_id', views.SpotView.as_view()),
+    path('spots/<int:pk>/', views.SpotView.as_view(), name='detail'),
 
     path('api/spots', views.index, name='index'),
     path('api/spots/<int:sighting_id>', views.spot, name='spot'),

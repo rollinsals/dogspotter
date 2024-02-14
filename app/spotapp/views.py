@@ -19,10 +19,36 @@ import datetime
 def home(request):
     return HttpResponse("At least it's not entirely broken")
 
+class IndexView(generic.ListView):
+    model = Sighting
+    template_name = "spots/index.html"
+    context_object_name = "sightings"
+
+    def get_queryset(self):
+        return Sighting.objects.all()
 
 class SpotView(generic.DetailView):
     model = Sighting
-    template_name = "spots/detail"
+    context_object_name = 'sighting'
+    template_name = "spots/detail.html"
+
+
+class SpotComposeView(generic.edit.CreateView):
+    model = Sighting
+    template_name = "spots/compose.html"
+    fields = [
+        "headline",
+        "dog_name",
+        "address",
+        "city",
+        "body_text",
+        "img"
+        ]
+
+def spot_detail(request, sighting_id):
+    our_spot = get_object_or_404(Sighting, pk=sighting_id)
+    return render(request, "spots/detail.html", {"sighting": our_spot})
+
 
 
 def spot(request, sighting_id):
@@ -30,11 +56,13 @@ def spot(request, sighting_id):
     spot_serialized = SpotSerializer(our_spot)
     return JsonResponse(spot_serialized.data)
 
+
 @api_view(['POST'])
 def post_sighting (request):
     new_data = JSONParser().parse(request)
     sighting_serialized = SpotSerializer(data=new_data)
     if sighting_serialized.is_valid():
+        sighting_serialized.save()
         return JsonResponse(sighting_serialized.data, status=status.HTTP_201_CREATED)
     return JsonResponse(sighting_serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
