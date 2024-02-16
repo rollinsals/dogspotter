@@ -17,13 +17,20 @@ from django.contrib import admin
 from django.urls import path
 
 from spotapp import views
+from users.views import SpotterLoginView
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
 
+    path('register', SpotterRegisterView.as_view(), name='register')
+    path('login', SpotterLoginView.as_view(), name='login'),
+    path('logout', LogoutView.as_view(next_page='home'), name='logout'),
+
     path('spots', views.IndexView.as_view(), name='index'),
     path('spots/<int:pk>/', views.SpotView.as_view(), name='detail'),
+    path('spots/compose/', views.SpotComposeView.as_view(), name='compose'),
 
     path('api/spots', views.index, name='index'),
     path('api/spots/<int:sighting_id>', views.spot, name='spot'),

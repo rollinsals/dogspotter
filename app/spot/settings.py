@@ -124,3 +124,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_URL = [BASE_DIR / "static"]
+
+# Media root
+# Storing our uploaded photos
+# not terribly secure - just want it to be functional for the purposes of the project
+MEDIA_URL = 'media'
+MEDIA_ROOT = [BASE_DIR / 'media']

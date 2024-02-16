@@ -1,8 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
 # Create your models here.
-class User(models.Model):
+class User(User):
     name = models.CharField(unique=True, max_length=24)
     slug = models.SlugField(null=True, blank=True)
 
@@ -21,6 +22,9 @@ class User(models.Model):
 class DogBreed(models.Model):
     name = models.CharField(max_length=50)
     slug = models.SlugField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["name"]
 
     def __str__(self) -> str:
         return self.name
@@ -58,7 +62,7 @@ class Sighting(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     address = models.CharField(max_length=200)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
-    img = models.TextField(null=True, blank=True) # fake 'file' for now. just a dummy file name
+    img = models.ImageField(upload_to=f'usr/{user_id}/', max_length=100, null=True, blank=True)
     dog_name = models.CharField(max_length=100, null=True, blank=True)
     headline = models.CharField(max_length=140)
     body_text = models.TextField(null=True, blank=True)

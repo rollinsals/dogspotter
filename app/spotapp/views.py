@@ -5,8 +5,10 @@ from rest_framework import status
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.urls import reverse_lazy
 
 from django.views import generic
+
 
 from .models import Sighting, User, DogBreed, City
 from .serializers import SpotSerializer
@@ -38,12 +40,19 @@ class SpotComposeView(generic.edit.CreateView):
     template_name = "spots/compose.html"
     fields = [
         "headline",
+        "breed_id",
         "dog_name",
         "address",
         "city",
         "body_text",
         "img"
         ]
+    redirect = reverse_lazy('detail', pk=model.pk)
+
+    def form_valid(self,form):
+        form.instance.user = self.request.user
+        return super(SpotComposeView, self).form_valid(form)
+
 
 def spot_detail(request, sighting_id):
     our_spot = get_object_or_404(Sighting, pk=sighting_id)
