@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'spotapp.apps.SpotappConfig',
+    'spotapp',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -129,5 +129,5 @@ STATICFILES_URL = [BASE_DIR / "static"]
 # Media root
 # Storing our uploaded photos
 # not terribly secure - just want it to be functional for the purposes of the project
-MEDIA_URL = 'media'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = [BASE_DIR / 'media']

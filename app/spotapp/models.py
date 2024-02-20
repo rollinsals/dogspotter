@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
-
 # Create your models here.
-class User(User):
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(unique=True, max_length=24)
+
     slug = models.SlugField(null=True, blank=True)
 
     def __str__(self) -> str:
@@ -13,11 +15,10 @@ class User(User):
     def save(self, *args, **kwargs):
         if not self.id:
             self.slug = slugify(self.name)
-        super(User, self).save(*args, **kwargs)
+        super(Profile, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return f"/{self.slug}"
-
 
 class DogBreed(models.Model):
     name = models.CharField(max_length=50)
@@ -57,7 +58,7 @@ class City(models.Model):
         return f"/city/{self.slug}"
 
 class Sighting(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(Profile, on_delete=models.CASCADE)
     breed_id = models.ForeignKey(DogBreed, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     address = models.CharField(max_length=200)

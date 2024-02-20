@@ -7,6 +7,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.urls import reverse_lazy
 
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+
 from django.views import generic
 
 
@@ -119,3 +123,26 @@ def delete_spot(request, sighting_id):
     spot = Sighting.objects.get(pk=sighting_id)
     spot.delete()
     return JsonResponse({'message': 'Spot has been deleted'}, status=status.HTTP_204_NO_CONTENT)
+
+#### Authentication ####
+
+class SpotterRegisterView(generic.FormView):
+    template = 'user/registration.html'
+    form_class = UserCreationForm
+    redirect_authenticated_user = True
+    successful_url = reverse_lazy('home')
+
+    def form_vaild(self, form):
+        user = form.save()
+        if user is not None:
+            login(self.request, user)
+        return super(SpotterRegisterView, self).form_valid(form)
+
+
+class SpotterLoginView(LoginView):
+    template_name = 'user/login.html'
+    fields = '__all__'
+    redirect_authenticated_user = True
+
+    def get_success_url(self):
+        return reverse_lazy('home')
