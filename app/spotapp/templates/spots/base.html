@@ -6,17 +6,18 @@
         <title>Dogspotter</title>
         <link
             rel="icon"
-            href="{static 'images/icons/favicon.svg}"
+            href="{static 'images/icons/favicon.svg'}"
             type="image/svg"
         />
     </head>
     <body>
+        <p>header is here</p>
         {% if request.user.is_authenticated %}
         <p>{{request.user}}</p>
         <a href="{% url 'logout' %}">Logout</a>
         {% else %}
         <a href="{% url 'login' %}">Login</a>
-        {% endif %}
+        {% endif %} {% block content %} {% endblock content %}
     </body>
     <footer></footer>
 </html>

@@ -4,10 +4,14 @@ to generate some dummy data for testing/display purposes
 """
 from django.core.management.base import BaseCommand
 
-from random import randint
+from random import randint, choices
+import secrets
+import hashlib
+import string
 from faker import Faker
 import faker.providers
-from spotapp.models import Sighting, DogBreed, User, City
+from django.contrib.auth.models import User
+from spotapp.models import Sighting, DogBreed, Profile, City
 
 # Constants
 USER_COUNT = 40
@@ -20,6 +24,17 @@ DOGBREEDLIST =[]
 class Provider(faker.providers.BaseProvider):
     def dog_breed(self):
         return self.random_element(DOGBREEDLIST)
+
+def random_passhash():
+    """Get hashed and salted password of length N | 8 <= N <= 15"""
+    raw = ''.join(
+        choices(
+            string.ascii_letters + string.digits + '!@#$%&', # valid pw characters
+            k=randint(8, 15) # length of pw
+        )
+    )
+    salt = secrets.token_hex(16)
+    return hashlib.sha512((raw + salt).encode('utf-8')).hexdigest()
 
 class Command(BaseCommand):
     help = "Command info"
@@ -37,7 +52,13 @@ class Command(BaseCommand):
 
 
         for _ in range(USER_COUNT):
-             User.objects.create(
+            new_user = User(
+                username = faker.unique.user_name(),
+                password = random_passhash()
+            )
+            new_user.save()
+            Profile.objects.create(
+                user = new_user,
                 name = faker.unique.user_name()
             )
 
@@ -55,7 +76,7 @@ class Command(BaseCommand):
             b_id = randint(1, BREED_COUNT)
             c_id = randint(1, CITY_COUNT)
             Sighting.objects.create(
-                user_id = User.objects.get(pk=u_id),
+                user_id = Profile.objects.get(pk=u_id),
                 breed_id = DogBreed.objects.get(pk=b_id),
                 timestamp = faker.date_time_this_decade(),
                 address = faker.address(),

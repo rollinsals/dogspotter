@@ -1,10 +1,12 @@
+{% extends 'spots/base.html' %} {% block content %}
 <div class="container">
     <h3>{{ sighting.headline }}</h3>
     <ul>
         <li>{{ sighting.address }}</li>
         <li>{{ sighting.city}}</li>
-        <li>{{ sighting.img }}</li>
+        <li>{{ sighting.img.name }}</li>
         <li>Name: {{ sighting.dog_name }}</li>
         <li>{{ sighting.body_text}}</li>
     </ul>
 </div>
+{% endblock content %}

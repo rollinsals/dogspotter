@@ -14,7 +14,7 @@ from django.contrib.auth import login
 from django.views import generic
 
 
-from .models import Sighting, User, DogBreed, City
+from .models import Sighting, Profile, DogBreed, City
 from .serializers import SpotSerializer
 from rest_framework.decorators import api_view
 
@@ -31,7 +31,7 @@ class IndexView(generic.ListView):
     context_object_name = "sightings"
 
     def get_queryset(self):
-        return Sighting.objects.all()
+        return Sighting.objects.all().order_by("-timestamp")
 
 class SpotView(generic.DetailView):
     model = Sighting
@@ -51,10 +51,10 @@ class SpotComposeView(generic.edit.CreateView):
         "body_text",
         "img"
         ]
-    redirect = reverse_lazy('detail', pk=model.pk)
+    success_url = reverse_lazy('index')
 
     def form_valid(self,form):
-        form.instance.user = self.request.user
+        form.instance.user_id = self.request.user.profile
         return super(SpotComposeView, self).form_valid(form)
 
 
