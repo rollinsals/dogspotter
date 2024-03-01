@@ -1,12 +1,18 @@
 {% extends 'spots/base.html' %} {% block content %}
+<a href="{% url  'index' %}">Back</a>
 <div class="container">
+    {% if sighting.img %}
+    <div class="spot_img">
+        <img src="{{sighting.img.url}}" />
+    </div>
+    {% endif %}
+
     <h3>{{ sighting.headline }}</h3>
-    <ul>
-        <li>{{ sighting.address }}</li>
-        <li>{{ sighting.city}}</li>
-        <li>{{ sighting.img.name }}</li>
-        <li>Name: {{ sighting.dog_name }}</li>
-        <li>{{ sighting.body_text}}</li>
-    </ul>
+    <p>Spotted by <a href="{% url 'user' sighting.user_id.slug %}">{{ sighting.user_id }}</a></p>
+    <p>Location: {{ sighting.address }}</p>
+    <a href="{% url 'city' sighting.city.slug %}" <p>{{ sighting.city}}</p></a>
+    <p>Name: {{ sighting.dog_name }}</p>
+    <p><a href="{% url 'breed' sighting.breed_id.slug %}" Breed: {{ sighting.breed_id }}></a></p>
+    <p>{{ sighting.body_text}}</p>
 </div>
 {% endblock content %}

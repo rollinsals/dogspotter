@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap")
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Cormorant Garamond", serif;
+    background-color: #faf4ed;
+    color: #575279;
+    padding-top: 50px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: 600;
+}
+
+.container {
+    max-width: 550px;
+    margin: auto;
+    background-color: #f2e9e1;
+    -webkit-box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.21);
+    box-shadow: 2px 2px 13px -4px rgba(0, 0, 0, 0.21);
+}
+
+.header-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.header-bar a {
+    color: #575279;
+    text-decoration: none;
+}
+
+.spot-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-width: 2px;
+    border-color: #f4ede8;
+}
+
+.spot-card img {
+    max-width: 400px;
+    max-height: 400px;
+}

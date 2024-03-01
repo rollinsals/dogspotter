@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from spotapp import views
 from django.contrib.auth.views import LogoutView
 
@@ -30,8 +32,7 @@ urlpatterns = [
     path('spots/<int:pk>/', views.SpotView.as_view(), name='detail'),
     path('spots/compose/', views.SpotComposeView.as_view(), name='compose'),
 
-    path('api/spots', views.index, name='index'),
-    path('api/spots/<int:sighting_id>', views.spot, name='spot'),
+    # path('api/spots', views.index, name='index'),
     path('api/spots/recent', views.recent, name='recent'),
     path('api/spots/breed/<slug:breed>', views.by_breed, name='breed'),
     path('api/spots/city/<slug:city>', views.by_city, name='city'),
@@ -39,7 +40,6 @@ urlpatterns = [
 
     #path('spots/search', views.spot_search, name='search'),
     path('api/spots/<int:sighting_id>', views.update_spot, name='spot_upd'),
-    path('api/spots/<int:sighting_id>', views.delete_spot, name='spot_del'),
 
     path('api/spots/compose', views.post_sighting, name='spot_new')
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

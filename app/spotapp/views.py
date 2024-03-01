@@ -10,6 +10,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.shortcuts import redirect
 
 from django.views import generic
 
@@ -17,10 +18,14 @@ from django.views import generic
 from .models import Sighting, Profile, DogBreed, City
 from .serializers import SpotSerializer
 from rest_framework.decorators import api_view
+#from django.views.decorators.csrf import csrf_exempt
 
 import datetime
 
 # Create your views here.
+
+## Views ##
+###########
 
 def home(request):
     return HttpResponse("At least it's not entirely broken")
@@ -62,13 +67,8 @@ def spot_detail(request, sighting_id):
     our_spot = get_object_or_404(Sighting, pk=sighting_id)
     return render(request, "spots/detail.html", {"sighting": our_spot})
 
-
-
-def spot(request, sighting_id):
-    our_spot = get_object_or_404(Sighting, pk=sighting_id)
-    spot_serialized = SpotSerializer(our_spot)
-    return JsonResponse(spot_serialized.data)
-
+## API Calls ##
+###############
 
 @api_view(['POST'])
 def post_sighting (request):
@@ -107,27 +107,35 @@ def user_spots(request, user):
 """def spot_search_name(request):
     search_criteria = JSONParser().parse(request)
     search_set = Sighting.objects.filter(dog_name__contains=search_criteria.data)"""
-@api_view(['PUT', 'PATCH'])
+
+@api_view(['GET','PUT', 'DELETE'])
 def update_spot(request, sighting_id):
     spot = Sighting.objects.get(pk=sighting_id)
-    upd_data = JSONParser().parse(request)
-    spot_serial = SpotSerializer(spot, data=upd_data)
-    if spot_serial.is_valid():
-        spot_serial.save()
+
+    ## Get function
+    if request.method == 'GET':
+        spot_serial = SpotSerializer(spot)
         return JsonResponse(spot_serial.data)
 
-    return JsonResponse(spot_serial.errors, status=status.HTTP_400_BAD_REQUEST)
+    ## Update function
+    if request.method == 'PUT':
+        upd_data = JSONParser().parse(request)
+        spot_serial = SpotSerializer(spot, data=upd_data)
+        if spot_serial.is_valid():
+            spot_serial.save()
+            return JsonResponse(spot_serial.data)
+        return JsonResponse(spot_serial.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['DELETE'])
-def delete_spot(request, sighting_id):
-    spot = Sighting.objects.get(pk=sighting_id)
-    spot.delete()
-    return JsonResponse({'message': 'Spot has been deleted'}, status=status.HTTP_204_NO_CONTENT)
+    ## Delete function
+    if request.method =='DELETE':
+        spot.delete()
+        return JsonResponse({'message': 'Spot has been deleted'}, status=status.HTTP_204_NO_CONTENT)
 
 #### Authentication ####
+########################
 
 class SpotterRegisterView(generic.FormView):
-    template = 'user/registration.html'
+    template_name = 'user/register.html'
     form_class = UserCreationForm
     redirect_authenticated_user = True
     successful_url = reverse_lazy('home')
@@ -137,6 +145,11 @@ class SpotterRegisterView(generic.FormView):
         if user is not None:
             login(self.request, user)
         return super(SpotterRegisterView, self).form_valid(form)
+
+    def get(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect('home')
+        return super(SpotterRegisterView, self).get(*args, **kwargs)
 
 
 class SpotterLoginView(LoginView):

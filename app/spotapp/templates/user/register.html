@@ -1,7 +1,15 @@
-<form>
+{% extends 'spots/base.html' %} {% block content %}
+<form method="POST">
     {% csrf_token %}
     <p>Registration form</p>
-    {{form.as_p}}
+    <label>{{form.username.label}}</label>
+    {{form.username}}
+    <label>{{form.password1.label}}</label>
+    {{form.password1}}
+    <label>{{form.password2.label}}</label>
+    {{form.password2}}
     <input type="submit" value="Create Account" />
 </form>
 <p>Already have an account: <a href="{% url 'login' %}">Login</a></p>
+
+{% endblock content %}

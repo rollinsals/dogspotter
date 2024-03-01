@@ -1,13 +1,14 @@
 {% extends 'spots/base.html' %} {% block content %}
 <h1>DogSpots</h1>
-{% if sightings %}
-<ul>
-    {% for sighting in sightings %}
-    <div>
-        <li><a href="/spots/{{ sighting.id }}/">{{sighting.headline}}</a></li>
-    </div>
-    {% endfor %}
-</ul>
-{% else %}
+{% if sightings %} {% for sighting in sightings %}
+<div class="spot-card">
+    {% if sighting.img %}
+    <img src="{{ sighting.img.url }}" />
+    {% endif %}
+    <h5>
+        <a href="{% url 'detail' sighting.id %}">{{sighting.headline}}</a>
+    </h5>
+</div>
+{% endfor %} {% else %}
 <p>No Spots available</p>
 {% endif %} {% endblock content %}

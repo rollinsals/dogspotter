@@ -1,3 +1,4 @@
 app/spotapp/migrations
 venv
 app/.env
+app/media
